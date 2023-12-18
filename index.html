@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <style>
+         .completed {
+            text-decoration: line-through;
+            color: red;
+        }
+      </style>
+  </head>
+  <body>
+      
+    <div class="container">
+        <h1 class="text-center display-3">My Daily Tasks</h1>
+
+        <form class="add-items mb-4">
+            <input type="text" class="form-control mb-4" id="todo-list">
+            <button class="add btn btn-primary">Save Task!</button>
+        </form>
+        <ul id="list-items" class="list-group">
+
+        </ul>
+        <hr>
+    </div>
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+      <script>
+             $(document).ready(function(){
+                   //showing the data from local storage
+              $("#list-items").html(localStorage.getItem('listItems'));
+                   //Add itmes Class
+              $(".add-items").submit(function(event){
+                   //prevent form for refreshing the page
+                event.preventDefault();
+                    //getting the value of input field
+                var item = $("#todo-list").val();
+
+                if(item){
+                   //add the data into ul list
+                   $("#list-items").append("<li class='list-group-item'><input type='checkbox' class='checkbox mr-3' />" + item + "<a class='remove float-right btn btn-danger'>X</a></li>");
+                   //also saving into local storage
+                   localStorage.setItem('listItems', $('#list-items').html());
+                    //clearing the input field
+                    $("#todo-list").val("");
+                }
+              })
+                  //function of clicking the checkbox
+                  $(document).on('change', '.checkbox', function () {
+
+                   if ($(this).attr('checked')) {
+                 $(this).removeAttr('checked');
+                    } else {
+                   $(this).attr('checked', 'checked');
+                }
+                    $(this).parent().toggleClass('completed');
+             //also updating in local Storage
+              localStorage.setItem('listItems', $('#list-items').html());
+              });       
+             })
+               //removing the task on pressing the delete button
+            $(document).on('click', '.remove', function () {
+                $(this).parent().remove();
+                //also updating in local Storage
+                localStorage.setItem('listItems', $('#list-items').html());
+            });  
+
+      </script>
+
+  </body>
+     
+</html>
